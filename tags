@@ -1,0 +1,111 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combine/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/davidwinterbottom/Dropbox/workspace/projects/datamapper/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/caca347/
+AbstractTalkRepository	src/talkfu/adapters/repository.py	/^class AbstractTalkRepository(abc.ABC):$/;"	c
+AbstractUnitOfWork	src/talkfu/adapters/unit_of_work.py	/^class AbstractUnitOfWork(abc.ABC):$/;"	c
+AddTalk	src/talkfu/domain/commands.py	/^class AddTalk(Command):$/;"	c
+COMMAND_HANDLERS	src/talkfu/usecases/message_bus.py	/^COMMAND_HANDLERS: dict[$/;"	v	typeref:typename:dict[ type[commands.Command], list[Callable[[commands.Command, unit_of_work.AbstractUnitOfWork], None]], ]
+Command	src/talkfu/domain/commands.py	/^class Command:$/;"	c
+DB_URL	src/talkfu/config.py	/^DB_URL = "postgresql:\/\/{user}:{password}@{host}:{port}\/{db_name}".format($/;"	v
+Data mapper project	README.md	/^# Data mapper project$/;"	c
+Development	README.md	/^## Development$/;"	s	chapter:Data mapper project
+EVENT_HANDLERS	src/talkfu/usecases/message_bus.py	/^EVENT_HANDLERS: dict[$/;"	v	typeref:typename:dict[ type[events.Event], list[Callable[[events.Event, unit_of_work.AbstractUnitOfWork], None]], ]
+Event	src/talkfu/domain/events.py	/^class Event:$/;"	c
+FakeTalkRepository	src/talkfu/adapters/repository.py	/^class FakeTalkRepository(AbstractTalkRepository):$/;"	c
+FakeUnitOfWork	tests/unit/test_usecases.py	/^class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):$/;"	c
+Getting started	README.md	/^## Getting started$/;"	s	chapter:Data mapper project
+HighScore	src/talkfu/domain/events.py	/^class HighScore(Event):$/;"	c
+Message	src/talkfu/usecases/message_bus.py	/^Message: TypeAlias = commands.Command | events.Event$/;"	v	typeref:typename:TypeAlias
+SqlAlchemyTalkRepository	src/talkfu/adapters/repository.py	/^class SqlAlchemyTalkRepository(AbstractTalkRepository):$/;"	c
+SqlAlchemyUnitOfWork	src/talkfu/adapters/unit_of_work.py	/^class SqlAlchemyUnitOfWork(AbstractUnitOfWork):$/;"	c
+Talk	src/talkfu/domain/model.py	/^class Talk:$/;"	c
+TalkDoesNotExist	src/talkfu/usecases/usecases.py	/^class TalkDoesNotExist(Exception):$/;"	c
+TestAddTalk	tests/unit/test_usecases.py	/^class TestAddTalk:$/;"	c
+TestSqlAlchemyTalkRepository	tests/integration/test_repository.py	/^class TestSqlAlchemyTalkRepository:$/;"	c
+TestVoteOnTalk	tests/unit/test_usecases.py	/^class TestVoteOnTalk:$/;"	c
+TwitterUser	src/talkfu/domain/model.py	/^class TwitterUser:$/;"	c
+Vote	src/talkfu/domain/commands.py	/^class Vote(Command):$/;"	c
+__enter__	src/talkfu/adapters/unit_of_work.py	/^    def __enter__(self) -> "AbstractUnitOfWork":$/;"	m	class:AbstractUnitOfWork	typeref:typename:"AbstractUnitOfWork"
+__enter__	src/talkfu/adapters/unit_of_work.py	/^    def __enter__(self) -> "SqlAlchemyUnitOfWork":$/;"	m	class:SqlAlchemyUnitOfWork	typeref:typename:"SqlAlchemyUnitOfWork"
+__enter__	tests/unit/test_usecases.py	/^    def __enter__(self):$/;"	m	class:FakeUnitOfWork
+__eq__	src/talkfu/domain/model.py	/^    def __eq__(self, other: object) -> bool:$/;"	m	class:Talk	typeref:typename:bool
+__exit__	src/talkfu/adapters/unit_of_work.py	/^    def __exit__(self, *args: object) -> None:$/;"	m	class:AbstractUnitOfWork	typeref:typename:None
+__exit__	src/talkfu/adapters/unit_of_work.py	/^    def __exit__(self, *args: object) -> None:$/;"	m	class:SqlAlchemyUnitOfWork	typeref:typename:None
+__hash__	src/talkfu/domain/model.py	/^    def __hash__(self) -> int:$/;"	m	class:Talk	typeref:typename:int
+__init__	src/talkfu/adapters/repository.py	/^    def __init__(self, session: Session) -> None:$/;"	m	class:SqlAlchemyTalkRepository	typeref:typename:None
+__init__	src/talkfu/adapters/repository.py	/^    def __init__(self, talks: list[model.Talk]) -> None:$/;"	m	class:FakeTalkRepository	typeref:typename:None
+__init__	src/talkfu/adapters/unit_of_work.py	/^    def __init__(self, db_url: str) -> None:$/;"	m	class:SqlAlchemyUnitOfWork	typeref:typename:None
+__init__	src/talkfu/domain/model.py	/^    def __init__($/;"	m	class:Talk
+__init__	src/talkfu/domain/model.py	/^    def __init__(self, username: str, num_followers: int):$/;"	m	class:TwitterUser
+__init__	tests/unit/test_usecases.py	/^    def __init__(self, talks: list[model.Talk]) -> None:$/;"	m	class:FakeUnitOfWork	typeref:typename:None
+__repr__	src/talkfu/domain/model.py	/^    def __repr__(self) -> str:$/;"	m	class:Talk	typeref:typename:str
+_handle_command	src/talkfu/usecases/message_bus.py	/^def _handle_command($/;"	f	typeref:typename:None
+_handle_event	src/talkfu/usecases/message_bus.py	/^def _handle_event($/;"	f	typeref:typename:None
+add	src/talkfu/adapters/repository.py	/^    def add(self, talk: model.Talk) -> None:$/;"	m	class:AbstractTalkRepository	typeref:typename:None
+add	src/talkfu/adapters/repository.py	/^    def add(self, talk: model.Talk) -> None:$/;"	m	class:FakeTalkRepository	typeref:typename:None
+add	src/talkfu/adapters/repository.py	/^    def add(self, talk: model.Talk) -> None:$/;"	m	class:SqlAlchemyTalkRepository	typeref:typename:None
+add_talk	src/talkfu/interfaces/flask_app.py	/^def add_talk() -> tuple[str, int]:$/;"	f	typeref:typename:tuple[str,int]
+add_talk	src/talkfu/usecases/usecases.py	/^def add_talk($/;"	f	typeref:typename:None
+addopts	pytest.ini	/^addopts = --tb=short$/;"	k	section:pytest
+bind_orm	tests/conftest.py	/^def bind_orm():$/;"	f
+check	makefile	/^check: format lint test types$/;"	t
+client	tests/conftest.py	/^def client(flask_app):$/;"	f
+commit	src/talkfu/adapters/unit_of_work.py	/^    def commit(self, events: list[events.Event] | None = None) -> None:$/;"	m	class:AbstractUnitOfWork	typeref:typename:None
+commit	src/talkfu/adapters/unit_of_work.py	/^    def commit(self, events: list[events.Event] | None = None) -> None:$/;"	m	class:SqlAlchemyUnitOfWork	typeref:typename:None
+commit	tests/unit/test_usecases.py	/^    def commit(self, events: list[events.Event] | None = None) -> None:$/;"	m	class:FakeUnitOfWork	typeref:typename:None
+create_app	src/talkfu/interfaces/flask_app.py	/^def create_app(config: dict[str, Any] | None = None) -> flask.Flask:$/;"	f	typeref:typename:flask.Flask
+create_schema	src/talkfu/adapters/database.py	/^def create_schema(db_url: str) -> None:$/;"	f	typeref:typename:None
+flask_app	tests/conftest.py	/^def flask_app(bind_orm, test_db_url):$/;"	f
+format	makefile	/^format:$/;"	t
+get	src/talkfu/adapters/repository.py	/^    def get(self, ref: str) -> model.Talk | None:$/;"	m	class:AbstractTalkRepository	typeref:typename:model.Talk|None
+get	src/talkfu/adapters/repository.py	/^    def get(self, ref: str) -> model.Talk | None:$/;"	m	class:FakeTalkRepository	typeref:typename:model.Talk|None
+get	src/talkfu/adapters/repository.py	/^    def get(self, ref: str) -> model.Talk | None:$/;"	m	class:SqlAlchemyTalkRepository	typeref:typename:model.Talk|None
+get_engine	src/talkfu/adapters/database.py	/^def get_engine(db_url: str) -> Engine:$/;"	f	typeref:typename:Engine
+get_session	src/talkfu/adapters/database.py	/^def get_session(db_url: str) -> Session:$/;"	f	typeref:typename:Session
+get_session_factory	src/talkfu/adapters/database.py	/^def get_session_factory(db_url: str) -> sessionmaker[Session]:$/;"	f	typeref:typename:sessionmaker[Session]
+handle	src/talkfu/usecases/message_bus.py	/^def handle($/;"	f	typeref:typename:None
+install	makefile	/^install:$/;"	t
+lint	makefile	/^lint:$/;"	t
+list	src/talkfu/adapters/repository.py	/^    def list(self) -> list[model.Talk]:$/;"	m	class:AbstractTalkRepository	typeref:typename:list[model.Talk]
+list	src/talkfu/adapters/repository.py	/^    def list(self) -> list[model.Talk]:$/;"	m	class:FakeTalkRepository	typeref:typename:list[model.Talk]
+list	src/talkfu/adapters/repository.py	/^    def list(self) -> list[model.Talk]:$/;"	m	class:SqlAlchemyTalkRepository	typeref:typename:list[model.Talk]
+mapper_registry	src/talkfu/adapters/orm.py	/^mapper_registry = registry()$/;"	v
+pytest	pytest.ini	/^[pytest]$/;"	s
+register_mappers	src/talkfu/adapters/orm.py	/^def register_mappers() -> None:$/;"	f	typeref:typename:None
+rollback	src/talkfu/adapters/unit_of_work.py	/^    def rollback(self) -> None:$/;"	m	class:AbstractUnitOfWork	typeref:typename:None
+rollback	src/talkfu/adapters/unit_of_work.py	/^    def rollback(self) -> None:$/;"	m	class:SqlAlchemyUnitOfWork	typeref:typename:None
+rollback	tests/unit/test_usecases.py	/^    def rollback(self) -> None:$/;"	m	class:FakeUnitOfWork	typeref:typename:None
+run	makefile	/^run:$/;"	t
+send_email	src/talkfu/usecases/message_bus.py	/^def send_email(event: events.Event, uow: unit_of_work.AbstractUnitOfWork) -> None:$/;"	f	typeref:typename:None
+session	tests/conftest.py	/^def session(bind_orm, test_db_url):$/;"	f
+set_score	src/talkfu/domain/model.py	/^    def set_score(self, new_score: float) -> None:$/;"	m	class:Talk	typeref:typename:None
+talks_table	src/talkfu/adapters/orm.py	/^talks_table = Table($/;"	v
+test	makefile	/^test:$/;"	t
+test_201_for_successful_vote	tests/functional/test_interface.py	/^def test_201_for_successful_vote(client):$/;"	f
+test_404_for_unknown_talk	tests/functional/test_interface.py	/^def test_404_for_unknown_talk(client):$/;"	f
+test_a_talk_can_be_added	tests/functional/test_interface.py	/^def test_a_talk_can_be_added(client):$/;"	f
+test_adds_talk_to_repo	tests/unit/test_usecases.py	/^    def test_adds_talk_to_repo(self):$/;"	m	class:TestAddTalk
+test_can_add_a_talk	tests/integration/test_repository.py	/^    def test_can_add_a_talk(self, session):$/;"	m	class:TestSqlAlchemyTalkRepository
+test_db_url	tests/conftest.py	/^def test_db_url():$/;"	f
+test_high_score_event_published_when_score_above_3	tests/unit/test_model.py	/^def test_high_score_event_published_when_score_above_3():$/;"	f
+test_insert_load_mutate	tests/integration/test_orm.py	/^def test_insert_load_mutate(session):$/;"	f
+test_load_and_retrieve	tests/integration/test_orm.py	/^def test_load_and_retrieve(session):$/;"	f
+test_no_high_score_event_for_lower_scores	tests/unit/test_model.py	/^def test_no_high_score_event_for_lower_scores():$/;"	f
+test_publishes_event_on_high_follower_count_vote	tests/unit/test_usecases.py	/^    def test_publishes_event_on_high_follower_count_vote(self):$/;"	m	class:TestVoteOnTalk
+test_raises_exception_if_talk_not_found	tests/unit/test_usecases.py	/^    def test_raises_exception_if_talk_not_found(self):$/;"	m	class:TestVoteOnTalk
+test_returns_list_of_talks	tests/integration/test_repository.py	/^    def test_returns_list_of_talks(self, session):$/;"	m	class:TestSqlAlchemyTalkRepository
+test_returns_none_if_no_match	tests/integration/test_repository.py	/^    def test_returns_none_if_no_match(self, session):$/;"	m	class:TestSqlAlchemyTalkRepository
+test_saves_new_score	tests/unit/test_usecases.py	/^    def test_saves_new_score(self):$/;"	m	class:TestVoteOnTalk
+test_talk_score_is_log10_of_voters_twitter_followers	tests/unit/test_model.py	/^def test_talk_score_is_log10_of_voters_twitter_followers():$/;"	f
+types	makefile	/^types:$/;"	t
+vote	src/talkfu/domain/model.py	/^def vote(talk: Talk, user: TwitterUser) -> list[events.Event]:$/;"	f	typeref:typename:list[events.Event]
+vote	src/talkfu/interfaces/flask_app.py	/^def vote() -> tuple[str, int]:$/;"	f	typeref:typename:tuple[str,int]
+vote_on_talk	src/talkfu/usecases/usecases.py	/^def vote_on_talk($/;"	f	typeref:typename:None
