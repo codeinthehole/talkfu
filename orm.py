@@ -23,4 +23,8 @@ talks_table = Table(
 
 
 def register_mappers() -> None:
-    mapper_registry.map_imperatively(model.Talk, talks_table)
+    """
+    Ensure the data models are mapped to their corresponding database tables.
+    """
+    if len(mapper_registry.mappers) == 0:
+        mapper_registry.map_imperatively(model.Talk, talks_table)
