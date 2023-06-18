@@ -5,15 +5,17 @@ import flask
 import database
 import model
 import orm
+import repository
 
 
 def vote() -> tuple[str, int]:
-    # DB connection
+    # Set-up repository.
     session = database.get_session(flask.current_app.config["DB_URL"])
+    repo = repository.SqlAlchemyTalkRepository(session)
 
     # Get talk directly from SQLAlchemy.
     talk_ref = flask.request.json["talk_ref"]
-    talk = session.query(model.Talk).filter_by(ref=talk_ref).first()
+    talk = repo.get(talk_ref)
     if not talk:
         flask.abort(404)
 
