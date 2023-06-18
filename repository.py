@@ -31,3 +31,20 @@ class SqlAlchemyTalkRepository(AbstractTalkRepository):
 
     def list(self) -> list[model.Talk]:
         return self.session.query(model.Talk).all()
+
+
+class FakeTalkRepository(AbstractTalkRepository):
+    def __init__(self, talks: list[model.Talk]) -> None:
+        self._talks = set(talks)
+
+    def add(self, talk: model.Talk) -> None:
+        self._talks.add(talk)
+
+    def get(self, ref: str) -> model.Talk | None:
+        matches = [t for t in self._talks if t.ref == ref]
+        if len(matches) == 1:
+            return matches[0]
+        return None
+
+    def list(self) -> list[model.Talk]:
+        return list(self._talks)

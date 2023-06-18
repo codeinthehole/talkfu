@@ -1,59 +1,57 @@
+"""
+Interface layer
+
+Responsible for translating HTTP requests into calls into the usecase layer.
+"""
 import datetime
 from typing import Any
 
 import flask
 
 import database
-import model
 import orm
 import repository
+import usecases
 
 
 def add_talk() -> tuple[str, int]:
-    # Set-up repository.
+    # Get a DB session.
     session = database.get_session(flask.current_app.config["DB_URL"])
+
+    # Set-up repository.
     repo = repository.SqlAlchemyTalkRepository(session)
 
-    # Construct model from request data.
-    talk = model.Talk(
+    usecases.add_talk(
         ref=flask.request.json["ref"],
         title=flask.request.json["title"],
         description=flask.request.json["description"],
         event_date=datetime.datetime.strptime(
             flask.request.json["event_date"], "%Y-%m-%d"
         ).date(),
-        score=0,
+        repository=repo,
+        session=session,
     )
-
-    # Add model to DB via repo.
-    repo.add(talk)
-
-    # Persist changes.
-    session.commit()
 
     return "", 201
 
 
 def vote() -> tuple[str, int]:
-    # Set-up repository.
+    # Get a DB session.
     session = database.get_session(flask.current_app.config["DB_URL"])
+
+    # Set-up repository.
     repo = repository.SqlAlchemyTalkRepository(session)
 
-    # Get talk directly from SQLAlchemy.
-    talk_ref = flask.request.json["talk_ref"]
-    talk = repo.get(talk_ref)
-    if not talk:
-        flask.abort(404)
-
-    # Vote.
-    user = model.TwitterUser(
-        username=flask.request.json["username"],
-        num_followers=flask.request.json["num_followers"],
-    )
-    model.vote(talk=talk, user=user)
-
-    # Persist changes.
-    session.commit()
+    try:
+        usecases.vote_on_talk(
+            talk_ref=flask.request.json["talk_ref"],
+            username=flask.request.json["username"],
+            num_followers=flask.request.json["num_followers"],
+            repository=repo,
+            session=session,
+        )
+    except usecases.TalkDoesNotExist:
+        return "", 404
 
     return "", 201
 
