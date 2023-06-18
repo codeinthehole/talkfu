@@ -29,6 +29,8 @@ talks_table = Table(
 
 def register_mappers() -> None:
     """
-    Map the table classes to the domain models.
+    Ensure the data models are mapped to their corresponding database tables.
     """
-    mapper_registry.map_imperatively(model.Talk, talks_table)
+    # We can't register the ORM mappings twice so we check there are none already registered.
+    if len(mapper_registry.mappers) == 0:
+        mapper_registry.map_imperatively(model.Talk, talks_table)
