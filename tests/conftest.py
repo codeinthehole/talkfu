@@ -2,11 +2,9 @@ import os
 import tempfile
 
 import pytest
+from adapters import database, orm
+from interfaces.flask_app import create_app
 from sqlalchemy.orm import clear_mappers, sessionmaker
-
-import database
-import interface
-import orm
 
 
 @pytest.fixture
@@ -48,7 +46,7 @@ def test_db_url():
 
 @pytest.fixture
 def flask_app(bind_orm, test_db_url):
-    app = interface.create_app(
+    app = create_app(
         # Use in-memory database.
         config=dict(
             # This ensures exceptions are propagated rather than handled by the app's error handlers

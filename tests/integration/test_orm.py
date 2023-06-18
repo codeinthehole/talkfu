@@ -1,8 +1,7 @@
 import datetime
 
+from domain import model
 from sqlalchemy.sql import text
-
-import model
 
 
 def test_load_and_retrieve(session):

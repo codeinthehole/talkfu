@@ -7,11 +7,8 @@ import datetime
 from typing import Any
 
 import flask
-
-import database
-import orm
-import repository
-import usecases
+from adapters import database, orm, repository
+from usecases import usecases
 
 
 def add_talk() -> tuple[str, int]:

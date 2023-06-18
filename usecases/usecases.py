@@ -6,8 +6,8 @@ Responsible for orchestration.
 import datetime
 from typing import Protocol
 
-import model
-import repository
+from adapters import repository
+from domain import model
 
 
 class DatabaseSession(Protocol):

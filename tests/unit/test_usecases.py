@@ -1,10 +1,9 @@
 import datetime
 
 import pytest
-
-import model
-import repository
-import usecases
+from adapters import repository
+from domain import model
+from usecases import usecases
 
 
 class FakeSession:
