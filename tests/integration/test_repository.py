@@ -1,9 +1,8 @@
 import datetime
 
+from adapters import repository
+from domain import model
 from sqlalchemy.sql import text
-
-import model
-import repository
 
 
 class TestSqlAlchemyTalkRepository:

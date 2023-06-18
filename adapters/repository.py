@@ -1,8 +1,7 @@
 import abc
 
+from domain import model
 from sqlalchemy.orm import Session
-
-import model
 
 
 class AbstractTalkRepository(abc.ABC):
