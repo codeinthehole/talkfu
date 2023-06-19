@@ -7,7 +7,11 @@ from adapters.orm import mapper_registry
 
 
 def get_session(db_url: str) -> Session:
-    return sessionmaker(bind=get_engine(db_url))()
+    return get_session_factory(db_url)()
+
+
+def get_session_factory(db_url: str) -> sessionmaker[Session]:
+    return sessionmaker(bind=get_engine(db_url))
 
 
 def get_engine(db_url: str) -> Engine:

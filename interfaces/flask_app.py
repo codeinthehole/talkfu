@@ -7,16 +7,12 @@ import datetime
 from typing import Any
 
 import flask
-from adapters import database, orm, repository
+from adapters import database, orm, unit_of_work
 from usecases import usecases
 
 
 def add_talk() -> tuple[str, int]:
-    # Get a DB session.
-    session = database.get_session(flask.current_app.config["DB_URL"])
-
-    # Set-up repository.
-    repo = repository.SqlAlchemyTalkRepository(session)
+    uow = unit_of_work.SqlAlchemyUnitOfWork(flask.current_app.config["DB_URL"])
 
     usecases.add_talk(
         ref=flask.request.json["ref"],
@@ -25,27 +21,21 @@ def add_talk() -> tuple[str, int]:
         event_date=datetime.datetime.strptime(
             flask.request.json["event_date"], "%Y-%m-%d"
         ).date(),
-        repository=repo,
-        session=session,
+        uow=uow,
     )
 
     return "", 201
 
 
 def vote() -> tuple[str, int]:
-    # Get a DB session.
-    session = database.get_session(flask.current_app.config["DB_URL"])
-
-    # Set-up repository.
-    repo = repository.SqlAlchemyTalkRepository(session)
+    uow = unit_of_work.SqlAlchemyUnitOfWork(flask.current_app.config["DB_URL"])
 
     try:
         usecases.vote_on_talk(
             talk_ref=flask.request.json["talk_ref"],
             username=flask.request.json["username"],
             num_followers=flask.request.json["num_followers"],
-            repository=repo,
-            session=session,
+            uow=uow,
         )
     except usecases.TalkDoesNotExist:
         return "", 404
