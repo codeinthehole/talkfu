@@ -1,3 +1,6 @@
+"""
+Repository is an abstraction over persistent storage.
+"""
 import abc
 
 from domain import model

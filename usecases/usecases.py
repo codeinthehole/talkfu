@@ -1,7 +1,10 @@
 """
 Service/usecase layer.
 
-Responsible for orchestration.
+- Responsible for orchestration.
+- Depends on domain layer internally
+- Arguments to use case fns are Python primitives
+- Depends on abstractions for repository and database session.
 """
 import datetime
 from typing import Protocol

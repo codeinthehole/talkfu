@@ -1,7 +1,7 @@
 """
 Interface layer
 
-Responsible for translating HTTP requests into calls into the usecase layer.
+A thin layer, responsible for translating HTTP requests into calls into the usecase layer.
 """
 import datetime
 from typing import Any
