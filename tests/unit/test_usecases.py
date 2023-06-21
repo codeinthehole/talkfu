@@ -9,15 +9,20 @@ from usecases import usecases
 class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
     def __init__(self, talks: list[model.Talk]) -> None:
         self.talks = repository.FakeTalkRepository(talks=talks)
+        self.events: list[model.Event] = []
 
     def __enter__(self):
         self.committed = False
 
-    def commit(self) -> None:
+    def commit(self, events: list[model.Event] | None = None) -> None:
         self.committed = True
+        super().commit(events)
 
     def rollback(self) -> None:
         pass
+
+    def _publish_events(self, events: list[model.Event]) -> None:
+        self.events = events
 
 
 class TestAddTalk:
@@ -59,8 +64,29 @@ class TestVoteOnTalk:
         uow = FakeUnitOfWork(talks=[talk])
 
         usecases.vote_on_talk(
-            talk_ref=talk.ref, username="fake_user", num_followers=100, uow=uow
+            talk_ref=talk.ref, username="fake_user", num_followers=100000, uow=uow
         )
 
-        assert talk.score == 2
+        assert talk.score == 5.0
         assert uow.committed
+
+    def test_publishes_event_on_high_follower_count_vote(self):
+        talk = model.Talk(
+            ref="bible1",
+            title="The Bible",
+            description="XXX",
+            event_date=datetime.date(2020, 1, 1),
+            score=0,
+        )
+        uow = FakeUnitOfWork(talks=[talk])
+
+        usecases.vote_on_talk(
+            talk_ref=talk.ref, username="fake_user", num_followers=100000, uow=uow
+        )
+
+        assert talk.score == 5.0
+        assert uow.committed
+
+        # Check events were passed to UoW.
+        assert len(uow.events) == 1
+        assert isinstance(uow.events[0], model.HighScore)
