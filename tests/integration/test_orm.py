@@ -1,7 +1,8 @@
 import datetime
 
-from domain import model
 from sqlalchemy.sql import text
+
+from talkfu.domain import model
 
 
 def test_load_and_retrieve(session):

@@ -8,8 +8,8 @@ Service/usecase layer.
 """
 import datetime
 
-from adapters import unit_of_work
-from domain import model
+from talkfu.adapters import unit_of_work
+from talkfu.domain import model
 
 
 def add_talk(

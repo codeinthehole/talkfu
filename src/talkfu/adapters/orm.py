@@ -1,6 +1,7 @@
-from domain import model
 from sqlalchemy import Column, Date, Float, Integer, String, Table
 from sqlalchemy.orm import registry
+
+from talkfu.domain import model
 
 # See https://docs.sqlalchemy.org/en/20/orm/mapping_styles.html#imperative-mapping
 # for docs on this manual mapping style.

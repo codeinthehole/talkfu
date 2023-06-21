@@ -1,6 +1,6 @@
 import datetime
 
-from domain import model
+from talkfu.domain import model
 
 
 def test_talk_score_is_log10_of_voters_twitter_followers():

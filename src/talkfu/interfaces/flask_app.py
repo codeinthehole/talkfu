@@ -7,8 +7,9 @@ import datetime
 from typing import Any
 
 import flask
-from adapters import database, orm, unit_of_work
-from usecases import usecases
+
+from talkfu.adapters import database, orm, unit_of_work
+from talkfu.usecases import usecases
 
 
 def add_talk() -> tuple[str, int]:

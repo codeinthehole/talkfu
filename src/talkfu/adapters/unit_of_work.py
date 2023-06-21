@@ -7,8 +7,8 @@ The unit of work abstracts atomic database access.
 """
 import abc
 
-from domain import model
-from usecases import message_bus
+from talkfu.domain import model
+from talkfu.usecases import message_bus
 
 from . import database, repository
 

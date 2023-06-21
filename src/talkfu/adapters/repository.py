@@ -3,8 +3,9 @@ Repository is an abstraction over persistent storage.
 """
 import abc
 
-from domain import model
 from sqlalchemy.orm import Session
+
+from talkfu.domain import model
 
 
 class AbstractTalkRepository(abc.ABC):
