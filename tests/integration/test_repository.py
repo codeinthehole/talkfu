@@ -1,8 +1,9 @@
 import datetime
 
-from adapters import repository
-from domain import model
 from sqlalchemy.sql import text
+
+from talkfu.adapters import repository
+from talkfu.domain import model
 
 
 class TestSqlAlchemyTalkRepository:

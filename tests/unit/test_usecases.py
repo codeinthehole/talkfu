@@ -1,9 +1,10 @@
 import datetime
 
 import pytest
-from adapters import repository, unit_of_work
-from domain import model
-from usecases import usecases
+
+from talkfu.adapters import repository, unit_of_work
+from talkfu.domain import model
+from talkfu.usecases import usecases
 
 
 class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):

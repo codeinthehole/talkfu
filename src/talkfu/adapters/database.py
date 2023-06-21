@@ -3,7 +3,7 @@ from sqlalchemy.engine.base import Engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
-from adapters.orm import mapper_registry
+from talkfu.adapters.orm import mapper_registry
 
 
 def get_session(db_url: str) -> Session:

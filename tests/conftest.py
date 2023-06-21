@@ -2,9 +2,10 @@ import os
 import tempfile
 
 import pytest
-from adapters import database, orm
-from interfaces.flask_app import create_app
 from sqlalchemy.orm import clear_mappers, sessionmaker
+
+from talkfu.adapters import database, orm
+from talkfu.interfaces.flask_app import create_app
 
 
 @pytest.fixture

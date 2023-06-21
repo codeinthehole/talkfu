@@ -1,6 +1,6 @@
 from typing import Callable
 
-from domain import model
+from talkfu.domain import model
 
 
 def handle(event: model.Event) -> None:
