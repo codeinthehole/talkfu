@@ -7,6 +7,9 @@ The unit of work abstracts atomic database access.
 """
 import abc
 
+from domain import model
+from usecases import message_bus
+
 from . import database, repository
 
 
@@ -21,12 +24,17 @@ class AbstractUnitOfWork(abc.ABC):
         self.rollback()
 
     @abc.abstractmethod
-    def commit(self) -> None:
-        raise NotImplementedError
+    def commit(self, events: list[model.Event] | None = None) -> None:
+        if events is not None:
+            self._publish_events(events)
 
     @abc.abstractmethod
     def rollback(self) -> None:
         raise NotImplementedError
+
+    def _publish_events(self, events: list[model.Event]) -> None:
+        for event in events:
+            message_bus.handle(event)
 
 
 class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
@@ -42,8 +50,10 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
         super().__exit__(*args)
         self._session.close()
 
-    def commit(self) -> None:
+    def commit(self, events: list[model.Event] | None = None) -> None:
+        # The state should be committed BEFORE we trigger any event handlers.
         self._session.commit()
+        super().commit(events=events)
 
     def rollback(self) -> None:
         self._session.rollback()

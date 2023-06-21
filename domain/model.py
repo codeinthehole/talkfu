@@ -45,6 +45,21 @@ class Talk:
         self.score = new_score
 
 
-def vote(talk: Talk, user: TwitterUser) -> None:
+class Event:
+    """
+    Value object for a domain event.
+    """
+
+
+class HighScore(Event):
+    pass
+
+
+def vote(talk: Talk, user: TwitterUser) -> list[Event]:
     new_score = talk.score + math.log10(user.num_followers)
     talk.set_score(new_score)
+
+    events: list[Event] = []
+    if new_score >= 4:
+        events = [HighScore()]
+    return events

@@ -54,7 +54,7 @@ def vote_on_talk(
             username=username,
             num_followers=num_followers,
         )
-        model.vote(talk=talk, user=user)
+        events = model.vote(talk=talk, user=user)
 
         # Persist changes.
-        uow.commit()
+        uow.commit(events)
