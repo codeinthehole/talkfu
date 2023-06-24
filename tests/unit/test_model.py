@@ -1,6 +1,6 @@
 import datetime
 
-from talkfu.domain import model
+from talkfu.domain import events, model
 
 
 def test_talk_score_is_log10_of_voters_twitter_followers():
@@ -34,11 +34,11 @@ def test_high_score_event_published_when_score_above_3():
 
     # Vote once
     low_follower_user = model.TwitterUser(username="Jimmy", num_followers=10000)
-    events = model.vote(talk, low_follower_user)
+    events_ = model.vote(talk, low_follower_user)
 
     # Check event published
-    assert len(events) == 1
-    assert isinstance(events[0], model.HighScore)
+    assert len(events_) == 1
+    assert isinstance(events_[0], events.HighScore)
 
 
 def test_no_high_score_event_for_lower_scores():

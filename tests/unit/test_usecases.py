@@ -3,27 +3,24 @@ import datetime
 import pytest
 
 from talkfu.adapters import repository, unit_of_work
-from talkfu.domain import model
+from talkfu.domain import commands, events, model
 from talkfu.usecases import usecases
 
 
 class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
     def __init__(self, talks: list[model.Talk]) -> None:
         self.talks = repository.FakeTalkRepository(talks=talks)
-        self.events: list[model.Event] = []
 
     def __enter__(self):
+        super().__enter__()
         self.committed = False
 
-    def commit(self, events: list[model.Event] | None = None) -> None:
-        self.committed = True
+    def commit(self, events: list[events.Event] | None = None) -> None:
         super().commit(events)
+        self.committed = True
 
     def rollback(self) -> None:
         pass
-
-    def _publish_events(self, events: list[model.Event]) -> None:
-        self.events = events
 
 
 class TestAddTalk:
@@ -31,10 +28,12 @@ class TestAddTalk:
         uow = FakeUnitOfWork(talks=[])
 
         usecases.add_talk(
-            ref="bible1",
-            title="The Bible",
-            description="XXX",
-            event_date=datetime.date(2020, 1, 1),
+            command=commands.AddTalk(
+                ref="bible1",
+                title="The Bible",
+                description="XXX",
+                event_date=datetime.date(2020, 1, 1),
+            ),
             uow=uow,
         )
 
@@ -48,9 +47,11 @@ class TestVoteOnTalk:
 
         with pytest.raises(usecases.TalkDoesNotExist):
             usecases.vote_on_talk(
-                talk_ref="bible1",
-                username="fake_user",
-                num_followers=123,
+                command=commands.Vote(
+                    talk_ref="bible1",
+                    username="fake_user",
+                    num_followers=123,
+                ),
                 uow=uow,
             )
 
@@ -65,7 +66,12 @@ class TestVoteOnTalk:
         uow = FakeUnitOfWork(talks=[talk])
 
         usecases.vote_on_talk(
-            talk_ref=talk.ref, username="fake_user", num_followers=100000, uow=uow
+            command=commands.Vote(
+                talk_ref=talk.ref,
+                username="fake_user",
+                num_followers=100000,
+            ),
+            uow=uow,
         )
 
         assert talk.score == 5.0
@@ -82,12 +88,17 @@ class TestVoteOnTalk:
         uow = FakeUnitOfWork(talks=[talk])
 
         usecases.vote_on_talk(
-            talk_ref=talk.ref, username="fake_user", num_followers=100000, uow=uow
+            command=commands.Vote(
+                talk_ref=talk.ref,
+                username="fake_user",
+                num_followers=100000,
+            ),
+            uow=uow,
         )
 
         assert talk.score == 5.0
         assert uow.committed
 
         # Check events were passed to UoW.
-        assert len(uow.events) == 1
-        assert isinstance(uow.events[0], model.HighScore)
+        assert len(uow.domain_events) == 1
+        assert isinstance(uow.domain_events[0], events.HighScore)

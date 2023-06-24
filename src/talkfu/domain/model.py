@@ -2,6 +2,8 @@ import datetime
 import math
 from dataclasses import dataclass
 
+from . import events
+
 # A mix of value objects, entities and service functions.
 
 
@@ -45,21 +47,11 @@ class Talk:
         self.score = new_score
 
 
-class Event:
-    """
-    Value object for a domain event.
-    """
-
-
-class HighScore(Event):
-    pass
-
-
-def vote(talk: Talk, user: TwitterUser) -> list[Event]:
+def vote(talk: Talk, user: TwitterUser) -> list[events.Event]:
     new_score = talk.score + math.log10(user.num_followers)
     talk.set_score(new_score)
 
-    events: list[Event] = []
+    events_: list[events.Event] = []
     if new_score >= 4:
-        events = [HighScore()]
-    return events
+        events_ = [events.HighScore()]
+    return events_
