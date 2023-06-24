@@ -9,19 +9,22 @@ from typing import Any
 import flask
 
 from talkfu.adapters import database, orm, unit_of_work
-from talkfu.usecases import usecases
+from talkfu.domain import commands
+from talkfu.usecases import message_bus, usecases
 
 
 def add_talk() -> tuple[str, int]:
     uow = unit_of_work.SqlAlchemyUnitOfWork(flask.current_app.config["DB_URL"])
 
-    usecases.add_talk(
-        ref=flask.request.json["ref"],
-        title=flask.request.json["title"],
-        description=flask.request.json["description"],
-        event_date=datetime.datetime.strptime(
-            flask.request.json["event_date"], "%Y-%m-%d"
-        ).date(),
+    message_bus.handle(
+        message=commands.AddTalk(
+            ref=flask.request.json["ref"],
+            title=flask.request.json["title"],
+            description=flask.request.json["description"],
+            event_date=datetime.datetime.strptime(
+                flask.request.json["event_date"], "%Y-%m-%d"
+            ).date(),
+        ),
         uow=uow,
     )
 
@@ -32,10 +35,12 @@ def vote() -> tuple[str, int]:
     uow = unit_of_work.SqlAlchemyUnitOfWork(flask.current_app.config["DB_URL"])
 
     try:
-        usecases.vote_on_talk(
-            talk_ref=flask.request.json["talk_ref"],
-            username=flask.request.json["username"],
-            num_followers=flask.request.json["num_followers"],
+        message_bus.handle(
+            message=commands.Vote(
+                talk_ref=flask.request.json["talk_ref"],
+                username=flask.request.json["username"],
+                num_followers=flask.request.json["num_followers"],
+            ),
             uow=uow,
         )
     except usecases.TalkDoesNotExist:

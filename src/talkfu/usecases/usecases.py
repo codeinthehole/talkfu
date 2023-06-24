@@ -6,25 +6,20 @@ Service/usecase layer.
 - Depends on unit-of-work for IO operations.
 - Arguments to use case fns are Python primitives.
 """
-import datetime
-
 from talkfu.adapters import unit_of_work
-from talkfu.domain import model
+from talkfu.domain import commands, model
 
 
 def add_talk(
-    ref: str,
-    title: str,
-    description: str,
-    event_date: datetime.date,
+    command: commands.AddTalk,
     uow: unit_of_work.AbstractUnitOfWork,
 ) -> None:
     # Construct model from request data.
     talk = model.Talk(
-        ref=ref,
-        title=title,
-        description=description,
-        event_date=event_date,
+        ref=command.ref,
+        title=command.title,
+        description=command.description,
+        event_date=command.event_date,
         score=0,
     )
     with uow:
@@ -38,21 +33,19 @@ class TalkDoesNotExist(Exception):
 
 
 def vote_on_talk(
-    talk_ref: str,
-    username: str,
-    num_followers: int,
+    command: commands.Vote,
     uow: unit_of_work.AbstractUnitOfWork,
 ) -> None:
     with uow:
         # Look up talk.
-        talk = uow.talks.get(talk_ref)
+        talk = uow.talks.get(command.talk_ref)
         if not talk:
-            raise TalkDoesNotExist(f"Talk {talk_ref} does not exist")
+            raise TalkDoesNotExist(f"Talk {command.talk_ref} does not exist")
 
         # Vote.
         user = model.TwitterUser(
-            username=username,
-            num_followers=num_followers,
+            username=command.username,
+            num_followers=command.num_followers,
         )
         events = model.vote(talk=talk, user=user)
 
