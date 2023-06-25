@@ -1,0 +1,75 @@
+"""
+Interface layer
+
+A thin layer, responsible for translating HTTP requests into calls into the usecase layer.
+"""
+import datetime
+from typing import Any
+
+import flask
+
+from talkfu.adapters import database, orm, unit_of_work
+from talkfu.domain import commands
+from talkfu.usecases import message_bus, usecases
+
+
+def add_talk() -> tuple[str, int]:
+    uow = unit_of_work.SqlAlchemyUnitOfWork(flask.current_app.config["DB_URL"])
+
+    message_bus.handle(
+        message=commands.AddTalk(
+            ref=flask.request.json["ref"],
+            title=flask.request.json["title"],
+            description=flask.request.json["description"],
+            event_date=datetime.datetime.strptime(
+                flask.request.json["event_date"], "%Y-%m-%d"
+            ).date(),
+        ),
+        uow=uow,
+    )
+
+    return "", 201
+
+
+def vote() -> tuple[str, int]:
+    uow = unit_of_work.SqlAlchemyUnitOfWork(flask.current_app.config["DB_URL"])
+
+    try:
+        message_bus.handle(
+            message=commands.Vote(
+                talk_ref=flask.request.json["talk_ref"],
+                username=flask.request.json["username"],
+                num_followers=flask.request.json["num_followers"],
+            ),
+            uow=uow,
+        )
+    except usecases.TalkDoesNotExist:
+        return "", 404
+
+    return "", 201
+
+
+def create_app(config: dict[str, Any] | None = None) -> flask.Flask:
+    """
+    Return a configured Flask application.
+    """
+    app = flask.Flask(__name__)
+
+    if config is not None:
+        # Use passed in config, if passed.
+        app.config.from_mapping(config)
+    else:
+        # Load from file.
+        app.config.from_pyfile("config.py", silent=False)
+
+    # Register routes.
+    app.route("/vote", methods=["POST"])(vote)
+    app.route("/add-talk", methods=["POST"])(add_talk)
+
+    # Resister ORM mappings.
+    orm.register_mappers()
+
+    # Ensure database is created.
+    database.create_schema(app.config["DB_URL"])
+
+    return app
